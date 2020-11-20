@@ -23,7 +23,6 @@ public class DetectorBase extends OpenCvPipeline{
 
     Boolean detected;
 
-
     public DetectorBase(){
     }
 
@@ -32,7 +31,9 @@ public class DetectorBase extends OpenCvPipeline{
         mask.setTo(new Scalar(0, 0, 0));
         Imgproc.cvtColor(input, imgHSV, Imgproc.COLOR_BGR2HSV);
         Imgproc.GaussianBlur(imgHSV, imgBlur, new Size(7, 7), 10);
-        Core.inRange(imgBlur, new Scalar(0, 0, 0), new Scalar(30, 255, 255), mask);
+
+        //HSV
+        Core.inRange(imgBlur, new Scalar(50, 20, 180), new Scalar(120, 50, 255), mask);
         Core.bitwise_and(input, input, input, mask);
 
         List<MatOfPoint> contours = new ArrayList<>();
@@ -52,19 +53,20 @@ public class DetectorBase extends OpenCvPipeline{
                 MatOfPoint2f contour = new MatOfPoint2f(contours.get(i).toArray());
                 MatOfPoint2f approx = new MatOfPoint2f();
 
-                double peri  = Imgproc.arcLength(contour, true);
-                Imgproc.approxPolyDP(contour, approx, 0.02 * peri, true);
+                double perimeter  = Imgproc.arcLength(contour, true);
+                Imgproc.approxPolyDP(contour, approx, 0.02 * perimeter, true);
 
                 Rect rect = Imgproc.boundingRect(approx);
 
-                double x = rect.x;
-                double y = rect.y;
-                double w = rect.width;
-                double h = rect.height;
+                double x = rect.x; // x of top left corner of rectangle
+                double y = rect.y; // y of top left corner of rectangle
+                double w = rect.width; // width of rectangle
+                double h = rect.height; // height of rectangle
 
                 double aspRatio = w / h;
 
-                detected = aspRatio > 0.95 || aspRatio < 1.05;
+                // 0.95 < aspRatio < 1.05
+                detected = aspRatio > 0.95 && aspRatio < 1.05;
 
                 Imgproc.rectangle(input, rect, new Scalar(0, 0, 255), 2);
                 Imgproc.putText(input, String.valueOf(detected), new Point(x + w, y + h), Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 0, 0), 2);
