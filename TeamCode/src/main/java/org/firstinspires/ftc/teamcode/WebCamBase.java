@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.*;
 
 import java.util.Locale;
@@ -19,7 +18,7 @@ public class WebCamBase extends LinearOpMode {
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         phoneCam.openCameraDevice();
 
-        DetectorBase base = new DetectorBase();
+        PencilDetector base = new PencilDetector();
         phoneCam.setPipeline(base);
 
         phoneCam.startStreaming(640, 480);
