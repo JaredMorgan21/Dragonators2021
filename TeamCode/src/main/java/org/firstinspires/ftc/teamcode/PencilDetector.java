@@ -20,7 +20,6 @@ public class PencilDetector extends OpenCvPipeline{
 
     Boolean detected;
 
-
     public PencilDetector(){
     }
 

@@ -1,4 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-public class NamePractice {
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+public class NamePractice extends LinearOpMode {
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
 }
