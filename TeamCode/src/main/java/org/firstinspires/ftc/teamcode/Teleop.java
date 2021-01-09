@@ -6,38 +6,32 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
 public class Teleop extends LinearOpMode {
-    private DcMotor BLM;
-    private DcMotor BRM;
-    private DcMotor FLM;
-    private DcMotor FRM;
+    Hardware robot = new Hardware();
 
     @Override
     public void runOpMode() {
-        //Getting Motor Name From Phone
-        BLM = hardwareMap.dcMotor.get("BLM");
-        BRM = hardwareMap.dcMotor.get("BRM");
-        FLM = hardwareMap.dcMotor.get("FLM");
-        FRM = hardwareMap.dcMotor.get("FRM");
-
-        // showing which direction the robot moves
-        FRM.setDirection(DcMotorSimple.Direction.REVERSE);
-        BRM.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        //setting run mode
-        FRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.update();
 
         waitForStart();
         while (opModeIsActive()) {
-            BLM.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-            BRM.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
-            FLM.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
-            FRM.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
+            robot.BLM.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            robot.BRM.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
+            robot.FLM.setPower(-gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
+            robot.FRM.setPower(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
+            if (gamepad2.a){
+                robot.Conveyor.setPower(1);
+            }
+            if (gamepad2.b){
+                robot.Flywheel.setPower(1);
+            }
+            if (gamepad2.x){
+                robot.Arm.setPosition(1);
+            }
+            if (gamepad2.y){
+                robot.Grabber.setPosition(1);
+            }
         }
     }
 }
