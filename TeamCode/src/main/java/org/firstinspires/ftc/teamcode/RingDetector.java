@@ -11,6 +11,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,17 @@ public class RingDetector extends OpenCvPipeline{
                 double aspRatio = w / h;
 
                 // 0.95 < aspRatio < 1.05
-                detected = aspRatio > 9.5 && aspRatio < 3;
+                detected = aspRatio > 2 && aspRatio < 10;
+
+                if (aspRatio > .80){
+                    if(aspRatio < 1.10){
+                       int RingNumber = 4;
+                    }
+                }
+                else {
+                    int RingNumber = 1;
+                }
+
 
                 Imgproc.rectangle(input, rect, new Scalar(0, 0, 255), 2);
                 Imgproc.putText(input, String.valueOf(detected), new Point(x + w, y + h), Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 0, 0), 2);
